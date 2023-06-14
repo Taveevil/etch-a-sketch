@@ -2,20 +2,31 @@ $(document).ready(function(){
     createGrid(16);
     var prev;
     var mouseDown = false;
-    var color = "black";
+    var defaultColor = "black";
+    var color;
+
+    color = defaultColor;
+
+    $('#color-picker').on('input',() => {
+        color = $('#color-picker').val();
+        console.log(color);
+    })
+
     $(".grid").on({
         mousedown: function(event){
             event.preventDefault();
             mouseDown = true;
+            $(this).css('background-color',color)
+            prev = color;
         },
         mouseup: function(){
             mouseDown = false;
         },
         mouseenter: function(){
             if(mouseDown){
-                $(this).addClass('filled');
-                $('.filled').css('background-color',color)
+                $(this).css('background-color',color)
                 prev = color;
+                console.log(mouseDown)
             } else{
             prev  = $(this).css("background-color");
             $(this).css("background-color", color)
@@ -34,9 +45,15 @@ $(document).ready(function(){
     })
 
     $('#reset').on("click",()=>{
-        $('.grid').css("background-color", "");
-        $('.grid').removeClass('filled');
-      
+        $('.grid').css("background-color", "");    
+    })
+
+    $('#pencil').on("click",()=>{
+        color = $('#color-picker').val();   
+    })
+
+    $('#eraser').on("click",()=>{
+        color = "white";    
     })
     
 })
