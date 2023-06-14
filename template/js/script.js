@@ -1,20 +1,43 @@
 $(document).ready(function(){
     createGrid(16);
+    var prev;
+    var mouseDown = false;
+    var color = "black";
     $(".grid").on({
-        click: function(){
-            $(this).css("background-color", "black")
+        mousedown: function(event){
+            event.preventDefault();
+            mouseDown = true;
+        },
+        mouseup: function(){
+            mouseDown = false;
         },
         mouseenter: function(){
-            $(this).addClass('hovered')
-            $('.hovered').css("background-color", "red");
+            if(mouseDown){
+                $(this).addClass('filled');
+                $('.filled').css('background-color',color)
+                prev = color;
+            } else{
+            prev  = $(this).css("background-color");
+            $(this).css("background-color", color)
+            }
         },
         mouseleave: function(){
-            $(this).removeClass('hovered');
-            $('.hovered').css("background-color", "red");
+            $(this).css("background-color", prev)
         }
     }
+
+    
     )
     
+    $(".canvas").on("mouseleave",function(){
+        mouseDown=false;
+    })
+
+    $('#reset').on("click",()=>{
+        $('.grid').css("background-color", "");
+        $('.grid').removeClass('filled');
+      
+    })
     
 })
 
